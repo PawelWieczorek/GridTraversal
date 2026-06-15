@@ -1,9 +1,6 @@
 #include "squareDecoder.h"
 
-
-
-
-bool* decodeBlockedSquares(char* squares, const unsigned N, const unsigned M)
+bool* decodeBlockedSquares(const char* squares, const unsigned N, const unsigned M)
 {
     char* tmp = malloc(strlen(squares));
     if (tmp)

@@ -1,22 +1,36 @@
 #include "grid.h"
 #include "squareDecoder.h"
 
-grid* createGrid(const unsigned int N, const unsigned int M)
+bool drawGrid = false;
+
+static bool initGrid(const grid* grid, const char* blockedPoints);
+
+grid* createGrid(const unsigned int N, const unsigned int M, const char* blockedSquares)
 {
     grid* grid = NULL;
 
     if (N > 0 && M > 0)
     {
         grid = malloc(sizeof(grid));
-        grid->squareList = malloc(N * M * sizeof(square));
-        grid->M = M;
-        grid->N = N;
+        
+        if(grid)
+        {
+            grid->squareList = malloc(N * M * sizeof(square));
+            grid->M = M;
+            grid->N = N;
+
+            if (!initGrid(grid, blockedSquares))
+            {
+                clearGrid(grid);
+                grid = NULL;
+            }
+        }
     }
 
     return grid;
 }
 
-bool initGrid(const grid* grid, char* blockedPoints)
+static bool initGrid(const grid* grid, const char* blockedPoints)
 {
     if(!grid)
     {
@@ -28,7 +42,7 @@ bool initGrid(const grid* grid, char* blockedPoints)
 
     if (!decodedBlockedSquares)
     {    
-        printf("Could not decode squares");
+        printf("Could not decode squares\n");
         return false;
     }
 
@@ -38,16 +52,19 @@ bool initGrid(const grid* grid, char* blockedPoints)
         {
             grid->squareList[xIdx,yIdx].isBlocked = *(decodedBlockedSquares + yIdx * grid->N + xIdx);
 
-            if(grid->squareList[xIdx,yIdx].isBlocked)
-            {
-                printf("%C",L'\u25a0');
-            }
-            else
-            {
-                printf("%C",L'\u25a1');
+            if (drawGrid)
+            {   
+                if(grid->squareList[xIdx,yIdx].isBlocked)
+                {
+                    printf("%ls",L"\u25a0 ");
+                }
+                else
+                {
+                    printf("%ls",L"\u25a1 ");
+                }
             }
 
-            if (xIdx == 1)
+            if (xIdx == 0)
             {
                 grid->squareList[xIdx, yIdx].west = NULL;
             } else
@@ -55,7 +72,7 @@ bool initGrid(const grid* grid, char* blockedPoints)
                 grid->squareList[xIdx, yIdx].west = &grid->squareList[xIdx - 1, yIdx];
             }
 
-            if (yIdx == 1)
+            if (yIdx == 0)
             {
                 grid->squareList[xIdx, yIdx].north = NULL;
             } else
@@ -79,7 +96,7 @@ bool initGrid(const grid* grid, char* blockedPoints)
                 grid->squareList[xIdx, yIdx].west = &grid->squareList[xIdx, yIdx + 1];
             }
         }
-        printf("%c",'\n');
+        if(drawGrid) {printf("%c",'\n');}
     }
 
     free(decodedBlockedSquares);

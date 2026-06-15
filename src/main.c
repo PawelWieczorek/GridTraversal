@@ -1,16 +1,19 @@
 #include <stdio.h>
-#include <wchar.h>
-#include <locale.h>
 #include "grid.h"
+#include "misc.h"
 
 int main(int argc, char *argv[])
 {
-    setlocale(LC_ALL, "");
+    params* params = parseParms(argc, argv);
 
-    grid* grid = createGrid(8,8);
-    initGrid(grid, "(3,1) (3,2) (3,3) (3,4) (3,5) (4,4) (5,4) (6,6) (7,7)");
+    if (params)
+    {
+        // grid* grid = createGrid(8,8, "(3,1) (3,2) (3,3) (3,4) (3,5) (4,4) (5,4) (6,6) (7,7)");
+        grid* grid = createGrid(params->N, params->M, params->blockedSquares);
 
-    clearGrid(grid);
+        clearGrid(grid);
+        clearParams(params);
+    }
 
     return 0;
 }
