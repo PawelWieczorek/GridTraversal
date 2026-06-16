@@ -132,7 +132,6 @@ static bool initGrid(const grid* grid, const char* blockedPoints)
                 }
             }
         }
-        printf("%c", '\n');
     }
     free(decodedBlockedSquares);
 

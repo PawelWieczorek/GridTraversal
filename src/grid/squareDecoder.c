@@ -39,8 +39,6 @@ bool* decodeBlockedSquares(const char* squares, const unsigned N, const unsigned
 
             free(square[i]);
         }
-        printf("\n");
-
     }
     free(tmp);
     return squaresTable;
