@@ -12,12 +12,11 @@ typedef struct grid_t grid;
 struct square_t
 {
     bool isBlocked;
-    int xPosition;
-    int yPosition;
     square* north;
     square* south;
     square* west;
     square* east;
+    int vertexLevel;
 };
 
 struct grid_t
