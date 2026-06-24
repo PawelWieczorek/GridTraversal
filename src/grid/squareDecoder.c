@@ -35,11 +35,13 @@ bool* decodeBlockedSquares(const char* squares, const unsigned N, const unsigned
             char* yCoord = strtok(NULL, "(),");
             int iYCoord = atoi(yCoord) - 1;
             
-            *(squaresTable + iYCoord * N + iXCoord) = true;
+            if (iXCoord >= 0 && iXCoord <= (N - 1) && iYCoord >= 0 && iYCoord <= (M - 1))
+            {
+                squaresTable[iYCoord * N + iXCoord] = true;
+            }
 
             free(square[i]);
         }
-
     }
     free(tmp);
     return squaresTable;

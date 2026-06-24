@@ -13,11 +13,11 @@ void printHelp()
             "M               - number of columns in grid\n"
             "lst_blk_squares - list of blocked points in format \"(a,b) (c,d) ... \", where a,b c,d - coordinates of squares\n"
             "mov_points      - available movement points\n\n"
-            "Example:\n"
-            "grid_traversal 5 5 \"(1,1) (2,4) (2,5)\" 10   - 5x5 grid with blocked (1,1) (2,4) and (2,5) squares and 10 movement points \n\n"
             "Options:\n"
             "--draw          - Draw input grid with blocked squares and output grid with traversed path.\n"
-            "--help          - Display this infomation.\n");
+            "--help          - Display this infomation.\n\n"
+            "Example:\n"
+            "grid_traversal 5 5 \"(1,1) (2,4) (2,5)\" 10   - 5x5 grid with blocked (1,1) (2,4) and (2,5) squares and 10 movement points \n\n");
 }
 
 params* parseParms(const int argc, char* const argv[])

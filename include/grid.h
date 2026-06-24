@@ -11,13 +11,13 @@ typedef struct grid_t grid;
 
 struct square_t
 {
+    int index;
     bool isBlocked;
-    int xPosition;
-    int yPosition;
     square* north;
     square* south;
     square* west;
     square* east;
+    int vertexLevel;
 };
 
 struct grid_t
@@ -25,6 +25,8 @@ struct grid_t
     int N;
     int M;
     square* squareList;
+    int nonZeroVertCnt;
+    int nonBlockedCnt;
 };
 
 grid* createGrid(const unsigned int N, const unsigned int M, const char* blockedSquares);
