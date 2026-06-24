@@ -3,7 +3,7 @@
 
 bool drawGrid = false;
 
-static bool initGrid(const grid* grid, const char* blockedPoints);
+static bool initGrid(grid* grid, const char* blockedPoints);
 
 grid* createGrid(const unsigned int N, const unsigned int M, const char* blockedSquares)
 {
@@ -18,6 +18,8 @@ grid* createGrid(const unsigned int N, const unsigned int M, const char* blocked
             grid->squareList = malloc(N * M * sizeof(square));
             grid->M = M;
             grid->N = N;
+            grid->nonZeroVertCnt = 0;
+            grid->nonBlockedCnt = 0;
 
             if (!initGrid(grid, blockedSquares))
             {
@@ -30,7 +32,7 @@ grid* createGrid(const unsigned int N, const unsigned int M, const char* blocked
     return grid;
 }
 
-static bool initGrid(const grid* grid, const char* blockedPoints)
+static bool initGrid(grid* grid, const char* blockedPoints)
 {
     if(!grid)
     {
@@ -48,6 +50,7 @@ static bool initGrid(const grid* grid, const char* blockedPoints)
 
     for (int idx = 0; idx < grid->N * grid->M; idx++)
     {
+        grid->squareList[idx].index = idx;
         grid->squareList[idx].isBlocked = decodedBlockedSquares[idx];
 
         if (drawGrid)
@@ -130,9 +133,18 @@ static bool initGrid(const grid* grid, const char* blockedPoints)
                     if (!square.north->isBlocked)
                     grid->squareList[yIdx * grid->N + xIdx].vertexLevel++;
                 }
+                
+                if (grid->squareList[yIdx * grid->N + xIdx].vertexLevel)
+                {
+                    grid->nonZeroVertCnt++;
+                }
             }
+            //printf("%d ", grid->squareList[yIdx * grid->N + xIdx].vertexLevel);
         }
+        //printf("\n");
     }
+
+    printf("Non zero level verticies count: %d\n",grid->nonZeroVertCnt);
     free(decodedBlockedSquares);
 
     return true;
